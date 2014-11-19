@@ -1,0 +1,33 @@
+*vim-syncopate.txt*
+                                                               *vim-syncopate*
+
+==============================================================================
+CONTENTS                                              *vim-syncopate-contents*
+  1. Configuration......................................|vim-syncopate-config|
+  2. Commands.........................................|vim-syncopate-commands|
+
+==============================================================================
+CONFIGURATION                                           *vim-syncopate-config*
+
+This plugin uses maktaba flags for configuration. Install Glaive
+(https://github.com/google/glaive) and use the |:Glaive| command to configure
+them.
+
+                                              *vim-syncopate:plugin[commands]*
+Configures whether plugin/commands.vim should be loaded.
+Default: 1 `
+
+                                              *vim-syncopate:plugin[mappings]*
+Configures whether plugin/mappings.vim should be loaded.
+Default: 0 `
+
+==============================================================================
+COMMANDS                                              *vim-syncopate-commands*
+
+:[range]HtmlExport                                               *:HtmlExport*
+  Export syntax-highlighted text, in HTML format, to a browser tab.
+
+  This is basically a wrapper around |:TOhtml|, but it cleans up after itself.
+
+
+vim:tw=78:ts=8:ft=help:norl:

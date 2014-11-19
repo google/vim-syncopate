@@ -20,5 +20,7 @@ endif
 
 
 ""
-" Export syntax-highlighted text to an HTML tab.
+" Export syntax-highlighted text, in HTML format, to a browser tab.
+"
+" This is basically a wrapper around |:TOhtml|, but it cleans up after itself.
 command -nargs=0 -range=% HtmlExport <line1>,<line2>call syncopate#HtmlExport()
