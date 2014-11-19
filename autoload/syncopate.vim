@@ -1,5 +1,6 @@
 let s:plugin = maktaba#plugin#Get('syncopate')
 
+
 ""
 " Export syntax-highlighted content to a new browser tab.
 function! syncopate#HtmlExport() range
