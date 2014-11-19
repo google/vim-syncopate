@@ -1,0 +1,10 @@
+{
+  "name": "syncopate",
+  "description": "Syntax-highlighted copy-paste",
+  "version": "0.1.0",
+  "author": "Google",
+  "repository": {"type": "git", "url": "git://github.com/google/vim-syncopate"},
+  "dependencies": {
+    "maktaba": {"type": "git", "url": "git://github.com/google/vim-maktaba"}
+  }
+}
