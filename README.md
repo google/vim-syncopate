@@ -8,7 +8,7 @@ To make sharing beautiful code as frictionless as possible.
 
 Say you have a nicely syntax-highlighted buffer in vim.
 This plugin lets you open a browser tab with that buffer's contents, including the highlighting.
-If you copy-paste into a Gmail window, a Google Doc, Google Groups, etc., the syntax highlighting stays intact.
+If you copy-paste into a webmail window, a Google Doc, etc., the syntax highlighting stays intact.
 
 Best of all, it cleans up after itself: it won't clutter your directories with `.html` files.
 
