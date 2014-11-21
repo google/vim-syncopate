@@ -20,7 +20,7 @@ let s:plugin = maktaba#plugin#Get('syncopate')
 "
 " @throws WrongType if @flag(colorscheme) or @flag(change_colorscheme) are
 " misconfigured.
-function! syncopate#HtmlExport() range
+function! syncopate#ExportToBrowser() range
   " Choose a more readable colorscheme for the HTML output, if desired.
   let l:change_colorscheme = maktaba#ensure#IsBool(
       \ s:plugin.Flag('change_colorscheme'))

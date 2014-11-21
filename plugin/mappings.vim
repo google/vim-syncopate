@@ -20,9 +20,12 @@ endif
 
 
 ""
-" Export syntax-highlighted text as HTML, using the current syncopate settings.
+" Export syntax-highlighted text to a browser tab as HTML, using the current
+" syncopate settings.
+"
+" In visual mode, this only exports the selected text.
 let s:prefix = s:plugin.MapPrefix('<>')
 " nnoremap, followed by ounmap, makes the mapping valid in normal and visual
 " modes.
-execute 'nnoremap <unique> <silent>' s:prefix ':HtmlExport<CR>'
+execute 'nnoremap <unique> <silent>' s:prefix ':SyncopateExportToBrowser<CR>'
 execute 'ounmap' s:prefix
