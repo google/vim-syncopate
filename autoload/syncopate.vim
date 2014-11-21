@@ -17,11 +17,18 @@ let s:plugin = maktaba#plugin#Get('syncopate')
 
 ""
 " Export syntax-highlighted content to a new browser tab.
+"
+" @throws WrongType if @flag(colorscheme) or @flag(change_colorscheme) are
+" misconfigured.
 function! syncopate#HtmlExport() range
-  " Save the old colorscheme and set it to 'default'.
-  " This results in more readable text.
-  let l:old_colorscheme = get(g:, 'colors_name', 'default')
-  colorscheme default
+  " Choose a more readable colorscheme for the HTML output, if desired.
+  let l:change_colorscheme = maktaba#ensure#IsBool(
+      \ s:plugin.Flag('change_colorscheme'))
+  if l:change_colorscheme
+    let l:old_colorscheme = get(g:, 'colors_name', 'default')
+    let l:colorscheme = maktaba#ensure#IsString(s:plugin.Flag('colorscheme'))
+    execute 'colorscheme' l:colorscheme
+  endif
 
   " Generate the HTML and save the file.
   execute a:firstline . ',' . a:lastline 'TOhtml'
@@ -35,6 +42,8 @@ function! syncopate#HtmlExport() range
   bwipeout
   call system(printf("rm '%s'", l:html_file))
 
-  " Restore the original colorscheme.
-  execute 'colorscheme' l:old_colorscheme
+  " Restore the original colorscheme, if necessary.
+  if l:change_colorscheme
+    execute 'colorscheme' l:old_colorscheme
+  endif
 endfunction
