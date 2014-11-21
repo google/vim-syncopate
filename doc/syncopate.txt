@@ -1,30 +1,86 @@
-*vim-syncopate.txt*
-                                                               *vim-syncopate*
+*syncopate.txt*	Syntax-highlighted copy-paste
+Google                                                             *syncopate*
 
 ==============================================================================
-CONTENTS                                              *vim-syncopate-contents*
-  1. Configuration......................................|vim-syncopate-config|
-  2. Commands.........................................|vim-syncopate-commands|
+CONTENTS                                                  *syncopate-contents*
+  1. Introduction............................................|syncopate-intro|
+  2. Configuring with standard settings............|syncopate-standard-config|
+  3. Configuration..........................................|syncopate-config|
+  4. Commands.............................................|syncopate-commands|
 
 ==============================================================================
-CONFIGURATION                                           *vim-syncopate-config*
+INTRODUCTION                                                 *syncopate-intro*
+
+Syncopate makes it very easy to share beautiful code in webmail windows,
+Google Docs, etc.
+
+Use the |:SyncopateExportToBrowser| command to open a new browser tab with
+your buffer's contents, syntax highlighting and all.  (If you're in
+|visual-mode|, only the selected text will be exported.)  Then you can
+copy-paste from the browser tab into your intended destination.
+
+Use a keymapping for even more convenience (see |syncopate:plugin[mappings]|).
+The default mapping is "<Leader><>".  So if your |<Leader>| is set to ",",
+then the mapping ",<>" will run |:SyncopateExportToBrowser| for you.
+(Mnemonic: "<>" is reminiscent of HTML tags, and it triggers HTML output.)
+
+Syncopate will automatically switch to the default colorscheme before output,
+since this tends to show up better (and be less error-prone!) on white
+backgrounds.  You can change this behaviour with the
+|syncopate:change_colorscheme| and |syncopate:colorscheme| settings.  In any
+case, Syncopate restores your original colorscheme once it's finished.
+
+==============================================================================
+CONFIGURING WITH STANDARD SETTINGS                 *syncopate-standard-config*
+
+Syncopate is based on the built-in |convert-to-HTML| functionality, which
+already has a wealth of configurable settings.  We try to use these settings
+wherever possible.  (For additional, Syncopate-specific settings, see
+|syncopate-config|.)
+
+For example: many people who use line numbers in vim do not want them in the
+HTML output, since they would show up when recipients copy-paste the code into
+an editor window.  By default, HTML output includes line numbers whenever vim
+does.  To force them not to appear, use the |g:html_number_lines| setting: add
+>
+  let g:html_number_lines = 0
+<
+to your vimrc.
+
+To browse all available settings, go to the first one (|g:html_diff_one_file|)
+and scroll down from there.
+
+==============================================================================
+CONFIGURATION                                               *syncopate-config*
 
 This plugin uses maktaba flags for configuration. Install Glaive
 (https://github.com/google/glaive) and use the |:Glaive| command to configure
 them.
 
-                                              *vim-syncopate:plugin[commands]*
+                                                *syncopate:change_colorscheme*
+Use a different colorscheme for the HTML output.  This can make the text more
+readable.
+Default: 1 `
+
+                                                       *syncopate:colorscheme*
+The colorscheme to switch to for the HTML output.  The default is "default",
+since it shows up nicely on a white background (as in most webmail windows).
+
+This setting has no effect if |syncopate:change_colorscheme| is false.
+Default: 'default' `
+
+                                                  *syncopate:plugin[commands]*
 Configures whether plugin/commands.vim should be loaded.
 Default: 1 `
 
-                                              *vim-syncopate:plugin[mappings]*
+                                                  *syncopate:plugin[mappings]*
 Configures whether plugin/mappings.vim should be loaded.
 Default: 0 `
 
 ==============================================================================
-COMMANDS                                              *vim-syncopate-commands*
+COMMANDS                                                  *syncopate-commands*
 
-:[range]HtmlExport                                               *:HtmlExport*
+:[range]SyncopateExportToBrowser                   *:SyncopateExportToBrowser*
   Export syntax-highlighted text, in HTML format, to a browser tab.
 
   This is basically a wrapper around |:TOhtml|, but it cleans up after itself.
