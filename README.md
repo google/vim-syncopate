@@ -1,6 +1,6 @@
 # syncopate
 
-**Syn**tax **cop**y-**pa**s**te**.
+(**Syn**)tax (**cop**)y-p(**a**)s(**te**).
 
 ## What's it for?
 
