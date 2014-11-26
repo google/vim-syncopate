@@ -30,17 +30,24 @@ function! syncopate#ExportToBrowser() range
     execute 'colorscheme' l:colorscheme
   endif
 
-  " Generate the HTML and save the file.
+  " Generate the HTML.
   execute a:firstline . ',' . a:lastline 'TOhtml'
-  w
 
-  " Open the HTML file in a browser.
-  let l:html_file = @%
-  call system(printf("sensible-browser '%s'", l:html_file))
+  " Try to save the HTML to a file and open it in the browser.
+  let l:html_file = tempname()
+  try
+    execute 'saveas!' l:html_file
+    call system(printf("sensible-browser '%s'", l:html_file))
+  catch /E212/
+    call maktaba#error#Warn('Could not write to "%s"', l:html_file)
+    let l:could_not_write = 1
+  endtry
 
-  " Kill the HTML file.
-  bwipeout
-  call system(printf("rm '%s'", l:html_file))
+  " Kill the HTML buffer (and file, if necessary).
+  bwipeout!
+  if get(l:, 'could_not_write', 0) == 0
+    call system(printf("rm '%s'", l:html_file))
+  endif
 
   " Restore the original colorscheme, if necessary.
   if l:change_colorscheme
