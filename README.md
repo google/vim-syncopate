@@ -34,7 +34,7 @@ Plugin google/vim-syncopate
 
 ## How do I use it?
 
-Use the `:HtmlExport` command.
+Use the `:SyncopateExportToBrowser` command.
 It opens up a new browser tab with the contents of your buffer (or just part of it, if you're in visual mode).
 You can then copy (with `Ctrl-C`, _not_ just by selection) and paste your beautiful code into a compose window (such as Gmail).
 
@@ -49,7 +49,7 @@ Glaive syncopate plugin[mappings]
 ```
 
 Suppose your [`<leader>`](http://stackoverflow.com/questions/1764263/what-is-the-leader-in-a-vimrc-file) is `,`.
-Then you will have a mapping `,<>` which calls `:HtmlExport` for you.
+Then you will have a mapping `,<>` which calls `:SyncopateExportToBrowser` for you.
 If you want a different mapping, just assign it to `plugin[mappings]` like so:
 
 ```vim
@@ -72,7 +72,7 @@ let g:html_number_lines = 0
 ## So how's this different from plain :TOhtml?
 
 Mainly convenience.
-Under the hood, `:HtmlExport` will:
+Under the hood, `:SyncopateExportToBrowser` will:
 
 1. Switch to the default `colorscheme` (it shows up better on white backgrounds).
 2. Create the HTML version of your vim buffer.
