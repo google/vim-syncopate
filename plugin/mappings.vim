@@ -27,5 +27,5 @@ endif
 let s:prefix = s:plugin.MapPrefix('<>')
 " nnoremap, followed by ounmap, makes the mapping valid in normal and visual
 " modes.
-execute 'noremap <unique> <silent>' s:prefix ':SyncopateExportToBrowser<CR>'
+execute 'noremap <unique> <silent>' s:prefix ':SyncopateExportToClipboard<CR>'
 execute 'ounmap' s:prefix
