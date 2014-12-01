@@ -72,3 +72,13 @@ call s:plugin.Flag('change_colorscheme', 1)
 "
 " This setting has no effect if @flag(change_colorscheme) is false.
 call s:plugin.Flag('colorscheme', 'default')
+
+
+""
+" The browser command which @command(SyncopateExportToBrowser) will use.
+"
+" The default, "sensible-browser", only works on Debian-based systems (including
+" Ubuntu).  It can be configured by the "update-alternatives" command.  If you
+" don't want to do this (or if you're not using a Debian-based system), you will
+" need to set this flag for the browser export to work.
+call s:plugin.Flag('browser', 'sensible-browser')

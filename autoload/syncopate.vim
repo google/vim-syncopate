@@ -81,8 +81,7 @@ endfunction
 ""
 " Export syntax-highlighted content to a new browser tab.
 "
-" @throws WrongType if @flag(colorscheme) or @flag(change_colorscheme) are
-" misconfigured.
+" @throws WrongType.
 function! syncopate#ExportToBrowser() range
   " Change any necessary settings to prepare for the HTML export.
   let l:settings = s:SyncopateSaveAndChangeSettings()
@@ -94,7 +93,8 @@ function! syncopate#ExportToBrowser() range
   let l:html_file = tempname()
   try
     execute 'saveas!' l:html_file
-    call system(printf("sensible-browser '%s'", l:html_file))
+    let l:browser = maktaba#ensure#IsString(s:plugin.Flag('browser'))
+    call system(printf("%s '%s'", l:browser, l:html_file))
   catch /E212/
     call maktaba#error#Warn('Could not write to "%s"', l:html_file)
     let l:could_not_write = 1
@@ -114,8 +114,7 @@ endfunction
 ""
 " Export syntax-highlighted content directly to the clipboard.
 "
-" @throws WrongType if @flag(colorscheme) or @flag(change_colorscheme) are
-" misconfigured.
+" @throws WrongType.
 function! syncopate#ExportToClipboard() range
   " Change any necessary settings to prepare for the HTML export.
   let l:settings = s:SyncopateSaveAndChangeSettings()
