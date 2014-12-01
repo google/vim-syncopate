@@ -25,11 +25,16 @@ function! s:SyncopateSaveAndChangeSettings()
       \ s:plugin.Flag('change_colorscheme'))
 
   " Save any settings we'll need to restore later.
-  let l:setting_names = []
+  let l:setting_names = ['g:html_use_css']
   if l:change_colorscheme
     call extend(l:setting_names, ['&background', 'g:colors_name'])
   endif
   let l:settings = maktaba#value#SaveAll(l:setting_names)
+
+  " Syncopate forces g:html_use_css to 0 (false).  This outputs ugly deprecated
+  " <font> tags, but it's necessary to make sure the HTML shows up correctly in
+  " email clients (which usually strip out <style> sections).
+  let g:html_use_css = 0
 
   " Choose a more readable colorscheme for the HTML output, if desired.
   if l:change_colorscheme
@@ -87,6 +92,25 @@ function! syncopate#ExportToBrowser() range
   if get(l:, 'could_not_write', 0) == 0
     call system(printf("rm '%s'", l:html_file))
   endif
+
+  " Restore any settings necessary.
+  call s:SyncopateRestoreSettings(l:settings)
+endfunction
+
+
+""
+" Export syntax-highlighted content directly to the clipboard.
+"
+" @throws WrongType if @flag(colorscheme) or @flag(change_colorscheme) are
+" misconfigured.
+function! syncopate#ExportToClipboard() range
+  " Change any necessary settings to prepare for the HTML export.
+  let l:settings = s:SyncopateSaveAndChangeSettings()
+
+  " Generate the HTML; send it to the clipboard; kill the HTML buffer.
+  execute a:firstline . ',' . a:lastline 'TOhtml'
+  silent %!xclip -t text/html -selection clipboard
+  bwipeout!
 
   " Restore any settings necessary.
   call s:SyncopateRestoreSettings(l:settings)

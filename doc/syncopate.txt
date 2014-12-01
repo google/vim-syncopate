@@ -83,7 +83,8 @@ COMMANDS                                                  *syncopate-commands*
 :[range]SyncopateExportToBrowser                   *:SyncopateExportToBrowser*
   Export syntax-highlighted text, in HTML format, to a browser tab.
 
-  This is basically a wrapper around |:TOhtml|, but it cleans up after itself.
+:[range]SyncopateExportToClipboard               *:SyncopateExportToClipboard*
+  Export syntax-highlighted text, in HTML format, to the clipboard.
 
 
 vim:tw=78:ts=8:ft=help:norl:
