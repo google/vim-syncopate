@@ -94,7 +94,8 @@ function! syncopate#ExportToBrowser() range
   let l:html_file = tempname()
   try
     execute 'saveas!' l:html_file
-    call system(printf("sensible-browser '%s'", l:html_file))
+    let l:browser = maktaba#ensure#IsString(s:plugin.Flag('browser'))
+    call system(printf("%s '%s'", l:browser, l:html_file))
   catch /E212/
     call maktaba#error#Warn('Could not write to "%s"', l:html_file)
     let l:could_not_write = 1

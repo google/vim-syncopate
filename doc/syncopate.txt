@@ -69,6 +69,15 @@ since it shows up nicely on a white background (as in most webmail windows).
 This setting has no effect if |syncopate:change_colorscheme| is false.
 Default: 'default' `
 
+                                                           *syncopate:browser*
+The browser command which |:SyncopateExportToBrowser| will use.
+
+The default, "sensible-browser", only works on Debian-based systems (including
+Ubuntu).  It can be configured by the "update-alternatives" command.  If you
+don't want to do this (or if you're not using a Debian-based system), you will
+need to set this flag for the browser export to work.
+Default: 'sensible-browser' `
+
                                                   *syncopate:plugin[commands]*
 Configures whether plugin/commands.vim should be loaded.
 Default: 1 `
