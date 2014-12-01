@@ -65,6 +65,19 @@ function! s:SyncopateRestoreSettings(settings)
 endfunction
 
 
+" Tell the user which lines were copied.
+function! s:InformUserAboutCopiedText(first, last)
+  redraw
+  let l:message_opener = 'Syncopate exported'
+  if a:first == 1 && a:last == line('$')
+    echomsg l:message_opener 'the entire file.'
+  else
+    let l:num_lines = a:last - a:first + 1
+    echomsg l:message_opener l:num_lines 'lines:' a:first 'to' a:last
+  endif
+endfunction
+
+
 ""
 " Export syntax-highlighted content to a new browser tab.
 "
@@ -114,4 +127,7 @@ function! syncopate#ExportToClipboard() range
 
   " Restore any settings necessary.
   call s:SyncopateRestoreSettings(l:settings)
+
+  " Tell the user what we did.
+  call s:InformUserAboutCopiedText(a:firstline, a:lastline)
 endfunction
