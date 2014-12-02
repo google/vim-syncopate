@@ -15,20 +15,59 @@
 let s:plugin = maktaba#plugin#Get('syncopate')
 
 
+" Change vim settings to prepare for HTML export, and save the old values for
+" s:SyncopateRestoreSettings().
+"
+" NOTE: Do not change this function without making a corresponding change in
+" s:SyncopateRestoreSettings().
+function! s:SyncopateSaveAndChangeSettings()
+  let l:change_colorscheme = maktaba#ensure#IsBool(
+      \ s:plugin.Flag('change_colorscheme'))
+
+  " Save any settings we'll need to restore later.
+  let l:setting_names = []
+  if l:change_colorscheme
+    call extend(l:setting_names, ['g:colors_name'])
+  endif
+  let l:settings = maktaba#value#SaveAll(l:setting_names)
+
+  " Choose a more readable colorscheme for the HTML output, if desired.
+  if l:change_colorscheme
+    execute 'colorscheme' maktaba#ensure#IsString(s:plugin.Flag('colorscheme'))
+  endif
+
+  return l:settings
+endfunction
+
+
+" Restore any {settings} we changed to export the HTML.
+"
+" NOTE: Do not change this function without making a corresponding change in
+" s:SyncopateSaveAndChangeSettings().
+function! s:SyncopateRestoreSettings(settings)
+  " We must restore the settings *before* changing the colorscheme, so that
+  " g:colors_name will have its original value.
+  call maktaba#value#Restore(a:settings)
+  if maktaba#ensure#IsBool(s:plugin.Flag('change_colorscheme'))
+    execute 'colorscheme' get(g:, 'colors_name', 'default')
+
+    " We restore them again, because :colorscheme can change some of the
+    " settings and we want to leave everything as we found it.  It may be
+    " unlikely that anybody relies on g:colors_name being unset; however, the
+    " performance hit should be truly negligible.
+    call maktaba#value#Restore(a:settings)
+  endif
+endfunction
+
+
 ""
 " Export syntax-highlighted content to a new browser tab.
 "
 " @throws WrongType if @flag(colorscheme) or @flag(change_colorscheme) are
 " misconfigured.
 function! syncopate#ExportToBrowser() range
-  " Choose a more readable colorscheme for the HTML output, if desired.
-  let l:change_colorscheme = maktaba#ensure#IsBool(
-      \ s:plugin.Flag('change_colorscheme'))
-  if l:change_colorscheme
-    let l:old_colorscheme = get(g:, 'colors_name', 'default')
-    let l:colorscheme = maktaba#ensure#IsString(s:plugin.Flag('colorscheme'))
-    execute 'colorscheme' l:colorscheme
-  endif
+  " Change any necessary settings to prepare for the HTML export.
+  let l:settings = s:SyncopateSaveAndChangeSettings()
 
   " Generate the HTML.
   execute a:firstline . ',' . a:lastline 'TOhtml'
@@ -49,8 +88,6 @@ function! syncopate#ExportToBrowser() range
     call system(printf("rm '%s'", l:html_file))
   endif
 
-  " Restore the original colorscheme, if necessary.
-  if l:change_colorscheme
-    execute 'colorscheme' l:old_colorscheme
-  endif
+  " Restore any settings necessary.
+  call s:SyncopateRestoreSettings(l:settings)
 endfunction
