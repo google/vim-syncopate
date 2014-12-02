@@ -34,9 +34,11 @@ Plugin google/vim-syncopate
 
 ## How do I use it?
 
-Use the `:SyncopateExportToBrowser` command.
-It opens up a new browser tab with the contents of your buffer (or just part of it, if you're in visual mode).
-You can then copy (with `Ctrl-C`, _not_ just by selection) and paste your beautiful code into a compose window (such as Gmail).
+### Use the clipboard directly
+
+Use the `:SyncopateExportToClipboard` command.
+It populates the clipboard with the contents of your buffer (or just part of it, if you're in visual mode), including highlighting.
+You can then paste your beautiful code into a compose window (such as Gmail).
 
 Of course, it's even better with a keymapping, which you can enable using Glaive:
 
@@ -49,7 +51,7 @@ Glaive syncopate plugin[mappings]
 ```
 
 Suppose your [`<leader>`](http://stackoverflow.com/questions/1764263/what-is-the-leader-in-a-vimrc-file) is `,`.
-Then you will have a mapping `,<>` which calls `:SyncopateExportToBrowser` for you.
+Then you will have a mapping `,<>` which calls `:SyncopateExportToClipboard` for you.
 If you want a different mapping, just assign it to `plugin[mappings]` like so:
 
 ```vim
@@ -57,6 +59,14 @@ Glaive syncopate plugin[mappings]='qwer'
 ```
 
 Now your mapping will be `qwer`.
+
+### Put it in a browser window
+
+Alternatively, you can use the `:SyncopateExportToBrowser` command.
+It opens the HTML in a new browser tab, so you can select regions interactively.
+Syncopate automatically cleans up the HTML file after opening the tab.
+
+If you use `:SyncopateExportToBrowser`, be sure to copy with `Ctrl-C` (as opposed to mouse selection/middle-click); otherwise, the highlighting will not be retained.
 
 ## How do I configure it?
 
@@ -72,13 +82,13 @@ let g:html_number_lines = 0
 ## So how's this different from plain :TOhtml?
 
 Mainly convenience.
-Under the hood, `:SyncopateExportToBrowser` will:
+Under the hood, `:SyncopateExportToClipboard` will:
 
 1. Switch to the default `colorscheme` (it shows up better on white backgrounds).
 2. Create the HTML version of your vim buffer.
-3. Save the file.
-4. Open it in a browser window.
-5. Delete the html file and buffer.
-6. Switch back to your original `colorscheme`.
+3. Export it to the clipboard.
+4. Restore your `colorscheme`, and any other settings it needed to change.
 
 Simply running `:TOhtml` only does the second step.
+In particular, the third step is difficult to remember how to do.
+Without it, `:TOhtml` usually involves tiresome saving-and-subsequently-deleting of HTML files, and fiddling with a browser.
