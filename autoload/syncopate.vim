@@ -27,7 +27,7 @@ function! s:SyncopateSaveAndChangeSettings()
   " Save any settings we'll need to restore later.
   let l:setting_names = []
   if l:change_colorscheme
-    call extend(l:setting_names, ['g:colors_name'])
+    call extend(l:setting_names, ['&background', 'g:colors_name'])
   endif
   let l:settings = maktaba#value#SaveAll(l:setting_names)
 
