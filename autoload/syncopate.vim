@@ -25,7 +25,7 @@ function! s:SyncopateSaveAndChangeSettings()
       \ s:plugin.Flag('change_colorscheme'))
 
   " Save any settings we'll need to restore later.
-  let l:setting_names = ['g:html_use_css']
+  let l:setting_names = ['&t_Co', 'g:html_use_css']
   if l:change_colorscheme
     call extend(l:setting_names, ['&background', 'g:colors_name'])
   endif
@@ -35,6 +35,11 @@ function! s:SyncopateSaveAndChangeSettings()
   " <font> tags, but it's necessary to make sure the HTML shows up correctly in
   " email clients (which usually strip out <style> sections).
   let g:html_use_css = 0
+
+  " Set the number of terminal colours to 256.  For vim (as opposed to gvim),
+  " this prevents us from outputting really hideous/unreadable colors for HTML
+  " (which should always have 256 colours available).
+  set t_Co=256
 
   " Choose a more readable colorscheme for the HTML output, if desired.
   if l:change_colorscheme
