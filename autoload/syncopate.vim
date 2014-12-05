@@ -126,6 +126,7 @@ function! syncopate#ExportToClipboard() range
 
   " Generate the HTML; send it to the clipboard; kill the HTML buffer.
   execute a:firstline . ',' . a:lastline 'TOhtml'
+  call s:PutDivInBody()
   silent %!xclip -t text/html -selection clipboard
   bwipeout!
 
@@ -134,4 +135,35 @@ function! syncopate#ExportToClipboard() range
 
   " Tell the user what we did.
   call s:InformUserAboutCopiedText(a:firstline, a:lastline)
+endfunction
+
+
+" Replace a pattern on the current line in the buffer.
+function! s:ReplaceOnCurrentLine(pattern, replacement)
+  " We add a copy and delete the original, instead of just using 's//', to avoid
+  " clobbering the @/ register.
+  put =substitute(getline('.'), a:pattern, a:replacement, '')
+  -
+  silent! delete _
+endfunction
+
+
+" Put a <div> inside the <body>, with the bgcolor and text attributes (if any)
+" turned into a style attribute.
+" 
+" This is intended to piggyback on 2html.vim's guesses for foreground and
+" background colours.
+function! s:PutDivInBody()
+  " Find the <body>-line, and follow it up with a similar <div>-line.
+  1
+  call search('<body')
+  put =substitute(getline('.'), 'body', 'div', '')
+  call s:ReplaceOnCurrentLine('text=\"\(#......\)\"', 'color: \1;')
+  call s:ReplaceOnCurrentLine('bgcolor=\"\(#......\)\"', 'background-color: \1;')
+  call s:ReplaceOnCurrentLine('<div \(.*\)>', '<div style=\"\1\">')
+
+  " Find the </body>-line, and precede it with a similar </div>-line.
+  $
+  call search('</body>', 'b')
+  put! =substitute(getline('.'), 'body', 'div', '')
 endfunction
