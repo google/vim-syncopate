@@ -86,8 +86,10 @@ endfunction
 ""
 " Export syntax-highlighted content to a new browser tab.
 "
-" @throws WrongType.
+" @throws WrongType
 function! syncopate#ExportToBrowser() range
+  let l:browser = maktaba#ensure#IsString(s:plugin.Flag('browser'))
+
   " Change any necessary settings to prepare for the HTML export.
   let l:settings = s:SyncopateSaveAndChangeSettings()
 
@@ -96,19 +98,17 @@ function! syncopate#ExportToBrowser() range
 
   " Try to save the HTML to a file and open it in the browser.
   let l:html_file = tempname()
+  execute 'saveas!' l:html_file
   try
-    execute 'saveas!' l:html_file
-    let l:browser = maktaba#ensure#IsString(s:plugin.Flag('browser'))
-    call system(printf("%s '%s'", l:browser, l:html_file))
-  catch /E212/
-    call maktaba#error#Warn('Could not write to "%s"', l:html_file)
-    let l:could_not_write = 1
+    call maktaba#syscall#Create([l:browser, l:html_file]).Call()
+  catch /ERROR(ShellError):/
+    call maktaba#error#Shout(v:exception)
   endtry
 
   " Kill the HTML buffer (and file, if necessary).
   bwipeout!
-  if get(l:, 'could_not_write', 0) == 0
-    call system(printf("rm '%s'", l:html_file))
+  if maktaba#path#Exists(l:html_file)
+    call delete(l:html_file)
   endif
 
   " Restore any settings necessary.
@@ -119,7 +119,7 @@ endfunction
 ""
 " Export syntax-highlighted content directly to the clipboard.
 "
-" @throws WrongType.
+" @throws WrongType
 function! syncopate#ExportToClipboard() range
   " Change any necessary settings to prepare for the HTML export.
   let l:settings = s:SyncopateSaveAndChangeSettings()
@@ -127,14 +127,26 @@ function! syncopate#ExportToClipboard() range
   " Generate the HTML; send it to the clipboard; kill the HTML buffer.
   execute a:firstline . ',' . a:lastline 'TOhtml'
   call s:PutDivInBody()
-  silent %!xclip -t text/html -selection clipboard
+  let l:contents = join(getline(1, '$'), "\n")
+  let l:succeeded = 0
+  try
+    call maktaba#syscall#Create([
+        \ 'xclip',
+        \ '-t', 'text/html',
+        \ '-selection', 'clipboard']).WithStdin(l:contents).Call()
+    let l:succeeded = 1
+  catch /ERROR(ShellError):/
+    call maktaba#error#Shout(v:exception)
+  endtry
   bwipeout!
 
   " Restore any settings necessary.
   call s:SyncopateRestoreSettings(l:settings)
 
-  " Tell the user what we did.
-  call s:InformUserAboutCopiedText(a:firstline, a:lastline)
+  if l:succeeded
+    " Tell the user what we did.
+    call s:InformUserAboutCopiedText(a:firstline, a:lastline)
+  endif
 endfunction
 
 

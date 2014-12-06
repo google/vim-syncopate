@@ -27,5 +27,6 @@ command -nargs=0 -range=% SyncopateExportToBrowser
 
 ""
 " Export syntax-highlighted text, in HTML format, to the clipboard.
+" Requires xclip to be installed on your system.
 command -nargs=0 -range=% SyncopateExportToClipboard
     \ <line1>,<line2>call syncopate#ExportToClipboard()

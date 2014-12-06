@@ -93,7 +93,8 @@ COMMANDS                                                  *syncopate-commands*
   Export syntax-highlighted text, in HTML format, to a browser tab.
 
 :[range]SyncopateExportToClipboard               *:SyncopateExportToClipboard*
-  Export syntax-highlighted text, in HTML format, to the clipboard.
+  Export syntax-highlighted text, in HTML format, to the clipboard. Requires
+  xclip to be installed on your system.
 
 
 vim:tw=78:ts=8:ft=help:norl:
