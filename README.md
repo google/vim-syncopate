@@ -32,6 +32,10 @@ Plugin google/vim-glaive
 Plugin google/vim-syncopate
 ```
 
+Syncopate is expected to work on any platform vim supports, but the default
+configuration may not work on your system and direct-to-clipboard support hasn't
+been implemented for some platforms. Contributions welcome!
+
 ## How do I use it?
 
 ### Use the clipboard directly
