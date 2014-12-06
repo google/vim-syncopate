@@ -86,7 +86,7 @@ endfunction
 ""
 " Export syntax-highlighted content to a new browser tab.
 "
-" @throws WrongType.
+" @throws WrongType
 function! syncopate#ExportToBrowser() range
   let l:browser = maktaba#ensure#IsString(s:plugin.Flag('browser'))
 
@@ -119,7 +119,7 @@ endfunction
 ""
 " Export syntax-highlighted content directly to the clipboard.
 "
-" @throws WrongType.
+" @throws WrongType
 function! syncopate#ExportToClipboard() range
   " Change any necessary settings to prepare for the HTML export.
   let l:settings = s:SyncopateSaveAndChangeSettings()
