@@ -1,5 +1,9 @@
 # 0.2.0
 
+[#2](google/vim-syncopate#2)
+
+(google/vim-syncopate#2)
+
 *2014-12-08*
 
 ## Features
