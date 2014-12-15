@@ -1,3 +1,9 @@
+# Current changes
+
+## Features
+
+* New `clear_bg` flag lets `:SyncopateExportToClipboard` output transparent backgrounds.
+
 # 0.2.0
 
 *2014-12-08*

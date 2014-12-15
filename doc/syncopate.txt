@@ -78,6 +78,15 @@ don't want to do this (or if you're not using a Debian-based system), you will
 need to set this flag for the browser export to work.
 Default: 'sensible-browser' `
 
+                                                          *syncopate:clear_bg*
+Controls whether |:SyncopateExportToClipboard| will clear the background
+colour.
+
+This can be useful for copy-pasting into a destination (e.g., some talk
+slides) whose background colour might be slightly different than the
+background in the editor.
+Default: 0 `
+
                                                   *syncopate:plugin[commands]*
 Configures whether plugin/commands.vim should be loaded.
 Default: 1 `

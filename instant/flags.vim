@@ -82,3 +82,13 @@ call s:plugin.Flag('colorscheme', 'default')
 " don't want to do this (or if you're not using a Debian-based system), you will
 " need to set this flag for the browser export to work.
 call s:plugin.Flag('browser', 'sensible-browser')
+
+
+""
+" Controls whether @command(SyncopateExportToClipboard) will clear the
+" background colour.
+"
+" This can be useful for copy-pasting into a destination (e.g., some talk
+" slides) whose background colour might be slightly different than the
+" background in the editor.
+call s:plugin.Flag('clear_bg', 0)
