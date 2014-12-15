@@ -162,16 +162,20 @@ endfunction
 
 " Put a <div> inside the <body>, with the bgcolor and text attributes (if any)
 " turned into a style attribute.
-" 
+"
 " This is intended to piggyback on 2html.vim's guesses for foreground and
 " background colours.
 function! s:PutDivInBody()
+  " Should this <div> set a background colour, or not?
+  let l:clear_bg = maktaba#ensure#IsBool(s:plugin.Flag('clear_bg'))
+
   " Find the <body>-line, and follow it up with a similar <div>-line.
   1
   call search('<body')
   put =substitute(getline('.'), 'body', 'div', '')
   call s:ReplaceOnCurrentLine('text=\"\(#......\)\"', 'color: \1;')
-  call s:ReplaceOnCurrentLine('bgcolor=\"\(#......\)\"', 'background-color: \1;')
+  let l:bg_replacement = l:clear_bg ? '' : 'background-color: \1;'
+  call s:ReplaceOnCurrentLine('bgcolor=\"\(#......\)\"', l:bg_replacement)
   call s:ReplaceOnCurrentLine('<div \(.*\)>', '<div style=\"\1\">')
 
   " Find the </body>-line, and precede it with a similar </div>-line.
