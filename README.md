@@ -75,7 +75,10 @@ If you use `:SyncopateExportToBrowser`, be sure to copy with `Ctrl-C` (as oppose
 
 ## How do I configure it?
 
-Use the built-in options for the `:TOhtml` command: `:help 2html.vim`.
+There are a variety of syncopate-specific options: whether to change the colorscheme, which browser to use, etc.
+See `:help syncopate-config`.
+
+For everything else, use the built-in options for the `:TOhtml` command: `:help 2html.vim`.
 (Options are down below, starting at `:help g:html_diff_one_file`.)
 
 For example, the following line will exclude line numbers from the output, even if you use them in vim:
