@@ -160,6 +160,16 @@ function! s:ReplaceOnCurrentLine(pattern, replacement)
 endfunction
 
 
+""
+" @public
+" An operator function to integrate with text objects.
+"
+" We ignore the {type}, since 2html.vim only seems to work linewise.
+function! syncopate#ClipboardOperatorfunc(type)
+  '[,'] call syncopate#ExportToClipboard()
+endfunction
+
+
 " Put a <div> inside the <body>, with the bgcolor and text attributes (if any)
 " turned into a style attribute.
 "

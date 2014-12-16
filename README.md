@@ -54,15 +54,16 @@ call glaive#Install()
 Glaive syncopate plugin[mappings]
 ```
 
-Suppose your [`<leader>`](http://stackoverflow.com/questions/1764263/what-is-the-leader-in-a-vimrc-file) is `,`.
-Then you will have a mapping `,<>` which calls `:SyncopateExportToClipboard` for you.
-If you want a different mapping, just assign it to `plugin[mappings]` like so:
-
+By default, syncopate's mappings all start with the prefix `<Leader><`.
+You can change the prefix by giving `plugin[mappings]` a value, like so:
 ```vim
 Glaive syncopate plugin[mappings]='qwer'
 ```
+The following examples will assume you're using the default prefix, and that your [`<Leader>`](http://stackoverflow.com/questions/1764263/what-is-the-leader-in-a-vimrc-file) is `,`.
 
-Now your mapping will be `qwer`.
+- `,<` calls `:SyncopateExportToClipboard` on whatever motion you choose.
+  (e.g., `,<ip` will copy the current paragraph (`ip`) to the clipboard.)
+- `,<>` calls `:SyncopateExportToClipboard` on the whole buffer (or your selection in visual mode).
 
 ### Put it in a browser window
 
@@ -74,7 +75,10 @@ If you use `:SyncopateExportToBrowser`, be sure to copy with `Ctrl-C` (as oppose
 
 ## How do I configure it?
 
-Use the built-in options for the `:TOhtml` command: `:help 2html.vim`.
+There are a variety of syncopate-specific options: whether to change the colorscheme, which browser to use, etc.
+See `:help syncopate-config`.
+
+For everything else, use the built-in options for the `:TOhtml` command: `:help 2html.vim`.
 (Options are down below, starting at `:help g:html_diff_one_file`.)
 
 For example, the following line will exclude line numbers from the output, even if you use them in vim:
