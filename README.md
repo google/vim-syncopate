@@ -54,15 +54,16 @@ call glaive#Install()
 Glaive syncopate plugin[mappings]
 ```
 
-Suppose your [`<leader>`](http://stackoverflow.com/questions/1764263/what-is-the-leader-in-a-vimrc-file) is `,`.
-Then you will have a mapping `,<>` which calls `:SyncopateExportToClipboard` for you.
-If you want a different mapping, just assign it to `plugin[mappings]` like so:
-
+By default, syncopate's mappings all start with the prefix `<Leader><`.
+You can change the prefix by giving `plugin[mappings]` a value, like so:
 ```vim
 Glaive syncopate plugin[mappings]='qwer'
 ```
+The following examples will assume you're using the default prefix, and that your [`<Leader>`](http://stackoverflow.com/questions/1764263/what-is-the-leader-in-a-vimrc-file) is `,`.
 
-Now your mapping will be `qwer`.
+- `,<` calls `:SyncopateExportToClipboard` on whatever motion you choose.
+  (e.g., `,<ip` will copy the current paragraph (`ip`) to the clipboard.)
+- `,<>` calls `:SyncopateExportToClipboard` on the whole buffer (or your selection in visual mode).
 
 ### Put it in a browser window
 

@@ -19,13 +19,23 @@ if !s:enter
 endif
 
 
+let s:prefix = s:plugin.MapPrefix('<')
+
+
 ""
 " Export syntax-highlighted text to a browser tab as HTML, using the current
 " syncopate settings.
 "
 " In visual mode, this only exports the selected text.
-let s:prefix = s:plugin.MapPrefix('<>')
-" nnoremap, followed by ounmap, makes the mapping valid in normal and visual
+let s:clipboard_map = s:prefix . '>'
+execute 'noremap <unique> <silent>' s:clipboard_map
+    \ ':SyncopateExportToClipboard<CR>'
+" noremap, followed by ounmap, makes the mapping valid in normal and visual
 " modes.
-execute 'noremap <unique> <silent>' s:prefix ':SyncopateExportToClipboard<CR>'
-execute 'ounmap' s:prefix
+execute 'ounmap' s:clipboard_map
+
+
+""
+" 'operatorfunc' mapping, suitable for use with text objects.
+execute 'nnoremap <unique> <silent>' s:prefix
+    \ ':set operatorfunc=syncopate#ClipboardOperatorfunc<CR>g@'

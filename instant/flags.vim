@@ -15,7 +15,7 @@
 
 ""
 " @section Introduction, intro
-" @order intro standard-config config commands
+" @order intro standard-config config commands functions
 " Syncopate makes it very easy to share beautiful code in webmail windows,
 " Google Docs, etc.
 "

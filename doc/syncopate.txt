@@ -7,6 +7,7 @@ CONTENTS                                                  *syncopate-contents*
   2. Configuring with standard settings............|syncopate-standard-config|
   3. Configuration..........................................|syncopate-config|
   4. Commands.............................................|syncopate-commands|
+  5. Functions...........................................|syncopate-functions|
 
 ==============================================================================
 INTRODUCTION                                                 *syncopate-intro*
@@ -104,6 +105,14 @@ COMMANDS                                                  *syncopate-commands*
 :[range]SyncopateExportToClipboard               *:SyncopateExportToClipboard*
   Export syntax-highlighted text, in HTML format, to the clipboard. Requires
   xclip to be installed on your system.
+
+==============================================================================
+FUNCTIONS                                                *syncopate-functions*
+
+syncopate#ClipboardOperatorfunc({type})    *syncopate#ClipboardOperatorfunc()*
+  An operator function to integrate with text objects.
+
+  We ignore the {type}, since 2html.vim only seems to work linewise.
 
 
 vim:tw=78:ts=8:ft=help:norl:
