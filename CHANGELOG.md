@@ -2,6 +2,8 @@
 
 ## Features
 
+- New `'operatorfunc'` function `syncopate#ClipboardOperatorfunc()`, and default mapping `,<`.
+  - This lets you do things like `,<ip` to export the current paragraph.
 * New `clear_bg` flag lets `:SyncopateExportToClipboard` output transparent backgrounds.
 
 # 0.2.0
