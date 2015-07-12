@@ -1,0 +1,58 @@
+Syncopate makes it very easy to share beautiful code in webmail windows, Google
+Docs, etc. It uses vim's syntax highlighting capabilities to send colored,
+formatted code from a vim buffer either to your clipboard directly or into a
+web browser view you can copy from.
+
+This file demonstrates the basics of syncopate usage.
+
+In order for these tests to work, maktaba MUST be in the same parent directory
+as syncopate. Given that that's the case, all we have to do is source the
+setupvroom.vim file, which bootstraps the codefmt plugin and configures it to
+work properly under vroom.
+
+  :source $VROOMDIR/setupvroom.vim
+  :syntax on
+
+First, let's put some vimscript code into a buffer and tell vim it's vimscript.
+
+  :set filetype=vim
+  % let x = empty('foo') ? 1 : 2
+
+Now we'll use :SyncopateExportToClipboard to send it as rich colored text to the
+clipboard. (Instead of sending it to your actual clipboard, we'll redirect it to
+a temporary file so we can inspect the contents below.)
+
+  :let $VROOM_TEMPFILE = tempname()
+  :SyncopateExportToClipboard
+  ! xclip -t text/html -selection clipboard 2>.*
+  $ cat > $VROOM_TEMPFILE (command)
+  ~ Syncopate exported the entire file.
+
+Now it's in the clipboard as rich colored text. The "let" keyword is highlighted
+in the appropriate color (from the default colorscheme). Other syntax is also
+there, highlighted in various other colors.
+
+  :echomsg join(readfile($VROOM_TEMPFILE), '')
+  ~ *<font color="#af5f00">let</font>*x*empty*'foo'*?*1*:*2* (glob)
+
+
+
+You can also use :SyncopateExportToBrowser to send the rich colored text to a
+browser window instead of the clipboard.
+
+  :set filetype=vim
+  % echo 'Beam me up!'
+  :SyncopateExportToBrowser
+  ! sensible-browser (\S+) 2>.*
+  $ cat \1 > $VROOM_TEMPFILE (command)
+
+  :echomsg join(readfile($VROOM_TEMPFILE), '')
+  ~ *echo*<font color="#c00000">'Beam me up!'</font>* (glob)
+
+It uses sensible-browser by default. You can override it to use any browser via
+the "browser" flag. This is a maktaba flag, configured using the :Glaive tool.
+
+  :Glaive syncopate browser=google-chrome
+  :SyncopateExportToBrowser
+  ! google-chrome (\S+) 2>.*
+  $ 
