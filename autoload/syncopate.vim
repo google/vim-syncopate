@@ -98,7 +98,7 @@ function! syncopate#ExportToBrowser() range
 
   " Try to save the HTML to a file and open it in the browser.
   let l:html_file = tempname()
-  execute 'saveas!' l:html_file
+  silent execute 'saveas!' l:html_file
   try
     call maktaba#syscall#Create([l:browser, l:html_file]).Call()
   catch /ERROR(ShellError):/
