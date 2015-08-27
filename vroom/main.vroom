@@ -33,7 +33,7 @@ in the appropriate color (from the default colorscheme). Other syntax is also
 there, highlighted in various other colors.
 
   :echomsg join(readfile($VROOM_TEMPFILE), '')
-  ~ *<font color="#af5f00">let</font>*x*empty*'foo'*?*1*:*2* (glob)
+  ~ *<font color="#??????">let</font>*x*empty*'foo'*?*1*:*2* (glob)
 
 
 
@@ -47,7 +47,7 @@ browser window instead of the clipboard.
   $ cat \1 > $VROOM_TEMPFILE (command)
 
   :echomsg join(readfile($VROOM_TEMPFILE), '')
-  ~ *echo*<font color="#c00000">'Beam me up!'</font>* (glob)
+  ~ *echo*<font color="#??????">'Beam me up!'</font>* (glob)
 
 It uses sensible-browser by default. You can override it to use any browser via
 the "browser" flag. This is a maktaba flag, configured using the :Glaive tool.

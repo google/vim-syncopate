@@ -24,10 +24,18 @@ function! s:SyncopateSaveAndChangeSettings()
   let l:change_colorscheme = maktaba#ensure#IsBool(
       \ s:plugin.Flag('change_colorscheme'))
 
+  " For vim (as opposed to gvim), we will need to muck with 't_Co' to avoid
+  " outputting really hideous/unreadable colors for HTML (which should always
+  " have 256 colours available).
+  let l:should_set_t_Co = !has('gui')
+
   " Save any settings we'll need to restore later.
-  let l:setting_names = ['&t_Co', 'g:html_use_css']
+  let l:setting_names = ['g:html_use_css']
   if l:change_colorscheme
     call extend(l:setting_names, ['&background', 'g:colors_name'])
+  endif
+  if l:should_set_t_Co
+    call extend(l:setting_names, ['&t_Co'])
   endif
   let l:settings = maktaba#value#SaveAll(l:setting_names)
 
@@ -36,10 +44,9 @@ function! s:SyncopateSaveAndChangeSettings()
   " email clients (which usually strip out <style> sections).
   let g:html_use_css = 0
 
-  " Set the number of terminal colours to 256.  For vim (as opposed to gvim),
-  " this prevents us from outputting really hideous/unreadable colors for HTML
-  " (which should always have 256 colours available).
-  set t_Co=256
+  if l:should_set_t_Co
+    set t_Co=256
+  endif
 
   " Choose a more readable colorscheme for the HTML output, if desired.
   if l:change_colorscheme
