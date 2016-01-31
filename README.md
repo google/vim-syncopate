@@ -38,7 +38,11 @@ been implemented for some platforms. Contributions welcome!
 
 ### xclip
 
-Syncopate requires `xclip` to manipulate clipboard. In most cases installing it from your package manager should just work, but for Arch users the `xclip` in official repository(0.12.4) is too old and doesn't support `-target`. They should install `xclip-svn` from AUR:
+Syncopate requires `xclip` to manipulate the clipboard.  In most cases,
+installing it from your package manager should just work.
+
+Arch Linux's official repository has an `xclip` (0.12.4) which is too old: it
+doesn't support `--target`. Arch users should install `xclip-svn` from AUR:
 
 ```
 yaourt -S xclip-svn
