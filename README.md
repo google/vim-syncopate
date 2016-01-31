@@ -36,6 +36,18 @@ Syncopate is expected to work on any platform vim supports, but the default
 configuration may not work on your system and direct-to-clipboard support hasn't
 been implemented for some platforms. Contributions welcome!
 
+### xclip
+
+Syncopate requires `xclip` to manipulate the clipboard.  In most cases,
+installing it from your package manager should just work.
+
+Arch Linux's official repository has an `xclip` (0.12.4) which is too old: it
+doesn't support `--target`. Arch users should install `xclip-svn` from AUR:
+
+```
+yaourt -S xclip-svn
+```
+
 ## How do I use it?
 
 ### Use the clipboard directly
