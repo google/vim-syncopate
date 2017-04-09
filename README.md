@@ -23,7 +23,7 @@ Here are instructions for Vundle, the most popular plugin manager.
 Add the following lines between your `call vundle#begin()` and `call vundle#end()` lines.
 
 ```vim
-" Dependency; reqiured for vim-syncopate.
+" Dependency; required for vim-syncopate.
 Plugin google/vim-maktaba
 
 " Strongly recommended: easy configuration of maktaba plugins.
