@@ -89,6 +89,13 @@ function! s:InformUserAboutCopiedText(first, last)
   endif
 endfunction
 
+" wait to remove file
+function! s:WaitToRemoveFile(file)
+  sleep 1000m
+  if maktaba#path#Exists(a:file)
+    call delete(a:file)
+  endif
+endfunction
 
 ""
 " Export syntax-highlighted content to a new browser tab.
@@ -104,7 +111,7 @@ function! syncopate#ExportToBrowser() range
   execute a:firstline . ',' . a:lastline 'TOhtml'
 
   " Try to save the HTML to a file and open it in the browser.
-  let l:html_file = tempname()
+  let l:html_file = tempname().'.html'
   silent execute 'saveas!' l:html_file
   try
     call maktaba#syscall#Create([l:browser, l:html_file]).Call()
@@ -114,12 +121,10 @@ function! syncopate#ExportToBrowser() range
 
   " Kill the HTML buffer (and file, if necessary).
   bwipeout!
-  if maktaba#path#Exists(l:html_file)
-    call delete(l:html_file)
-  endif
 
   " Restore any settings necessary.
   call s:SyncopateRestoreSettings(l:settings)
+  call s:WaitToRemoveFile(l:html_file)
 endfunction
 
 
@@ -130,6 +135,16 @@ endfunction
 function! syncopate#ExportToClipboard() range
   " Change any necessary settings to prepare for the HTML export.
   let l:settings = s:SyncopateSaveAndChangeSettings()
+  let l:cmd = [
+        \ 'xclip',
+        \ '-t', 'text/html',
+        \ '-selection', 'clipboard']
+  if has('macunix')
+    let l:cmd = [
+        \ 'pbcopy',
+        \ '-Prefer', 'rtf',
+        \ '-pboard', 'general']
+  endif
 
   " Generate the HTML; send it to the clipboard; kill the HTML buffer.
   execute a:firstline . ',' . a:lastline 'TOhtml'
@@ -137,10 +152,7 @@ function! syncopate#ExportToClipboard() range
   let l:contents = join(getline(1, '$'), "\n")
   let l:succeeded = 0
   try
-    call maktaba#syscall#Create([
-        \ 'xclip',
-        \ '-t', 'text/html',
-        \ '-selection', 'clipboard']).WithStdin(l:contents).Call()
+    call maktaba#syscall#Create(l:cmd).WithStdin(l:contents).Call()
     let l:succeeded = 1
   catch /ERROR(ShellError):/
     call maktaba#error#Shout(v:exception)
